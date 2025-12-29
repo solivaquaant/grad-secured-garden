@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wish wall</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@0,400;0,700&family=Montserrat:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>"
+    />
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  </head>
+  <body>
+    <!-- Floating butterfly animation container -->
+    <div id="butterfly-container"></div>
+    <h1 class="wall-title">Garden of wishes</h1>
+    <p class="wall-subtitle">Anonymous blessings from my dear guests</p>
+
+    <!-- Container for dynamically loaded wish cards -->
+    <div class="wish-grid" id="wish-wall"></div>
+
+    <a href="/" class="back-link">RETURN TO GARDEN</a>
+    <script src="js/app.js"></script>
+  </body>
+</html>
