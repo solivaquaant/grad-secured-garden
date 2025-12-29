@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Letter from Thái Trinh</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>"
+    />
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  </head>
+
+  <body>
+    <!-- Background music -->
+    <audio id="bg-music" loop>
+      <source src="./static/bg-music.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- Visual effect layers -->
+    <div id="parallax-bg"></div>
+    <div id="butterfly-container"></div>
+
+    <!-- Authentication gate interface -->
+    <div id="gate-container">
+      <div class="gate-panel gate-left"></div>
+      <div class="gate-panel gate-right"></div>
+
+      <div class="interface" id="interface-box">
+        <div class="lock-interface">
+          <button class="padlock-btn" id="lock-btn">
+            <i class="fas fa-lock padlock-icon"></i>
+          </button>
+          <div id="auth-form">
+            <input
+              type="text"
+              id="guest-pass"
+              class="guest-input"
+              placeholder="Enter your name"
+              autocomplete="off"
+            />
+            <button class="submit-btn" id="enter-btn">Enter Garden</button>
+          </div>
+          <p class="status-msg" id="status-text">
+            SECURED ENTRY <span class="blink">_</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cinematic envelope reveal animation -->
+    <div id="envelope-wrapper">
+      <div class="envelope" id="cinematic-envelope">
+        <div class="envelope-flap"></div>
+        <div class="wax-seal">T</div>
+        <div class="envelope-front"></div>
+        <div class="letter-preview">
+          <p
+            id="handwriting-msg"
+            style="
+              margin-top: 50px;
+              font-size: 2rem;
+              font-family: var(--font-script);
+              min-height: 40px;
+            "
+          ></p>
+        </div>
+      </div>
+    </div>
+
+    <main id="main-scroll-container">
+      <!-- Hero section with personalized greeting -->
+      <section id="chapter-hero">
+        <div class="sun-glow"></div>
+        <div class="hero-content-wrapper">
+          <div class="hero-stagger security-badge">Identity Confirmed</div>
+          <div class="hero-stagger greeting-pre">Dearest</div>
+          <div id="user-display" class="hero-stagger guest-name-large">
+            Guest
+          </div>
+          <div class="hero-stagger invitation-line">
+            You are invited to the graduation party of
+          </div>
+          <h1 class="hero-stagger host-name-small">Thái Trinh</h1>
+          <div class="hero-stagger degree-info">
+            Bachelor of Information Security
+          </div>
+        </div>
+        <div class="scroll-hint">
+          <i class="fas fa-chevron-down"></i><span>EXPLORE</span>
+        </div>
+      </section>
+
+      <!-- Photo gallery section -->
+      <section id="chapter-memory">
+        <h2
+          style="
+            font-family: var(--font-head);
+            font-size: 3rem;
+            margin-bottom: 40px;
+          "
+        >
+          Long story short, I survived.
+        </h2>
+        <div class="gallery-grid">
+          <div class="memory-card">
+            <img src="./static/freshman.webp" class="memory-img" />
+            <div class="memory-caption">Freshman year</div>
+          </div>
+          <div class="memory-card" style="margin-top: 40px">
+            <img src="./static/intern.webp" class="memory-img" />
+            <div class="memory-caption">Internship days</div>
+          </div>
+          <div class="memory-card">
+            <img src="./static/unforgettable.webp" class="memory-img" />
+            <div class="memory-caption">Unforgettable</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Timeline of key milestones -->
+      <section id="chapter-timeline">
+        <h2
+          style="
+            font-family: var(--font-head);
+            font-size: 3rem;
+            margin-bottom: 40px;
+          "
+        >
+          Key milestones
+        </h2>
+        <div class="timeline-wrapper">
+          <div class="timeline-line-active" id="draw-line"></div>
+          <div class="timeline-event">
+            <div class="event-year">2022</div>
+            <h3 class="event-title">The beginning</h3>
+            <p class="event-desc">
+              Started the degree in Information Security with nothing but
+              curiosity.
+            </p>
+          </div>
+          <div class="timeline-event">
+            <div class="event-year">2024</div>
+            <h3 class="event-title">The internship</h3>
+            <p class="event-desc">
+              First hands-on experience securing enterprise networks.
+            </p>
+          </div>
+          <div class="timeline-event">
+            <div class="event-year">2026</div>
+            <h3 class="event-title">The finish line</h3>
+            <p class="event-desc">Ready for the next chapter.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Event details and location information -->
+      <section id="chapter-destination">
+        <div class="logistics-box">
+          <h2
+            style="
+              font-family: var(--font-head);
+              font-size: 2.5rem;
+              color: #4a7c59;
+            "
+          >
+            The ceremony
+          </h2>
+          <div
+            style="
+              width: 50px;
+              height: 2px;
+              background: #ffd966;
+              margin: 20px auto;
+            "
+          ></div>
+
+          <div class="details-block">
+            <div class="details-row">
+              <i class="far fa-calendar-alt"></i>
+              <strong id="dynamic-date">Loading date...</strong>
+            </div>
+            <div class="details-row">
+              <i class="far fa-clock"></i>
+              <strong id="dynamic-time">Loading time...</strong>
+            </div>
+            <div class="details-row">
+              <i class="fas fa-map-marker-alt"></i>
+              <strong id="dynamic-location">Loading location...</strong>
+            </div>
+          </div>
+
+          <div id="countdown-timer">
+            <div class="time-box">
+              <span class="time-val" id="d-val">00</span
+              ><span class="time-label">Days</span>
+            </div>
+            <div class="time-box">
+              <span class="time-val" id="h-val">00</span
+              ><span class="time-label">Hrs</span>
+            </div>
+            <div class="time-box">
+              <span class="time-val" id="m-val">00</span
+              ><span class="time-label">Min</span>
+            </div>
+            <div class="time-box">
+              <span class="time-val" id="s-val">00</span
+              ><span class="time-label">Sec</span>
+            </div>
+          </div>
+
+          <div class="map-container" id="google-map">
+            <iframe
+              id="map-iframe"
+              src=""
+              width="100%"
+              height="100%"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+            ></iframe>
+          </div>
+
+          <a id="btn-open-maps" target="_blank" class="maps-action-btn">
+            <i class="fas fa-directions"></i> OPEN IN GOOGLE MAPS
+          </a>
+        </div>
+      </section>
+
+      <!-- Guest message submission section -->
+      <section id="chapter-closing">
+        <h2 style="font-family: var(--font-head); font-size: 3rem">
+          Leave a wish
+        </h2>
+        <div id="rsvp-container">
+          <p>Your support means the world.</p>
+          <form class="rsvp-form" id="rsvp-form">
+            <input
+              type="text"
+              id="rsvp-message"
+              class="rsvp-input"
+              placeholder="Your message"
+              required
+            />
+            <button type="submit" class="rsvp-btn">SIGN GUESTBOOK</button>
+          </form>
+        </div>
+        <footer style="margin-top: 50px; font-size: 0.8rem; opacity: 0.7">
+          © 2026 Letter from Thái Trinh to you. All rights reserved.
+        </footer>
+      </section>
+    </main>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
