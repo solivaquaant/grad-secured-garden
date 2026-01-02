@@ -9,6 +9,7 @@ const inputField = document.getElementById("guest-pass");
 const enterBtn = document.getElementById("enter-btn");
 const rsvpForm = document.getElementById("rsvp-form");
 const bgMusic = document.getElementById("bg-music");
+const musicControl = document.getElementById("music-control");
 
 // Initialize application on page load
 window.onload = function () {
@@ -21,6 +22,7 @@ window.onload = function () {
   });
 
   rsvpForm.addEventListener("submit", handleRSVP);
+  musicControl.addEventListener("click", toggleMusic);
 };
 
 // Show authentication form when lock is clicked
@@ -224,8 +226,16 @@ function initButterflies() {
 
 // Orchestrate gate opening and envelope reveal animation sequence
 function triggerCinematicEntry() {
-  bgMusic.volume = 0.1;
-  bgMusic.play().catch((e) => console.log("Audio requires interaction"));
+  bgMusic.volume = 0.2;
+  bgMusic
+    .play()
+    .then(() => {
+      musicControl.classList.add("music-playing");
+    })
+    .catch((e) => {
+      console.log("Audio requires interaction");
+      musicControl.classList.add("music-muted");
+    });
 
   statusText.innerText = "ACCESS GRANTED";
   statusText.style.color = "var(--gold)";
@@ -364,6 +374,19 @@ function fireConfetti() {
       duration: Math.random() * 2 + 1,
       onComplete: () => conf.remove(),
     });
+  }
+}
+
+// Toggle background music playback and update UI
+function toggleMusic() {
+  if (bgMusic.paused) {
+    bgMusic.play();
+    musicControl.classList.add("music-playing");
+    musicControl.classList.remove("music-muted");
+  } else {
+    bgMusic.pause();
+    musicControl.classList.remove("music-playing");
+    musicControl.classList.add("music-muted");
   }
 }
 
