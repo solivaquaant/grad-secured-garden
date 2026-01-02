@@ -1,3 +1,17 @@
+@font-face {
+    font-family: 'Perandory-Condensed';
+    src: url('../fonts/Perandory-Condensed.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Burgues Script';
+    src: url('../fonts/HLT-Burgues-Script.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root {
   --sage: #8a9a5b;
   --sage-dark: #5f6f3a;
@@ -399,52 +413,53 @@ body {
 }
 
 .greeting-pre {
-  font-family: var(--font-head);
-  font-style: italic;
-  font-size: 1.5rem;
-  color: var(--deep-green);
-  opacity: 0.8;
-  margin-bottom: 0.5rem;
+  font-family: "Perandory-Condensed", sans-serif;
+  font-size: 3rem;
+  color: #b4b4b4;
+  text-transform: uppercase;
+  margin-bottom: -1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .guest-name-large {
-  font-family: var(--font-script);
-  font-size: clamp(2.5rem, 8vw, 5rem);
-  /* font-size: 5rem; */
-  color: #ff758f;
-  text-shadow: 0 0 30px #ffc2cd;
-  line-height: 1.1;
+  font-family: "Burgues Script";
+  font-size: clamp(4rem, 10vw, 7rem);
+  color: #fe728d;
+  text-shadow: 2px 2px 0px #ffd570;
+  line-height: 1;
   margin-bottom: 2rem;
   position: relative;
-  display: inline-block;
-  max-width: 90vw; 
-  word-wrap: break-word;
+  z-index: 3;
+  font-style: normal;
 }
 
 .invitation-line {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.1rem;
+  color: #5f6f3a;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--sage-dark);
-  margin-bottom: 1rem;
-  opacity: 0.9;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
 }
 
 .host-name-small {
-  font-family: var(--font-head);
-  font-size: 2.5rem;
-  color: var(--deep-green);
-  font-weight: 600;
-  letter-spacing: -0.5px;
+  font-family: "Perandory-Condensed", sans-serif;
+  font-size: 4rem;
+  color: #2f4f4f;
+  text-transform: uppercase;
+  font-weight: normal;
+  line-height: 1;
+  margin-bottom: 0.5rem;
 }
 
 .degree-info {
-  font-family: var(--font-head);
+  font-family: "Times New Roman", Times, serif;
   font-style: italic;
-  font-size: 1.1rem;
-  color: #b8860b;
-  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  color: #dfb160;
+  letter-spacing: 2px;
+  margin-top: 1rem;
 }
 
 .scroll-hint {
