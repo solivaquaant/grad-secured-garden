@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'Perandory-Condensed';
-    src: url('../fonts/Perandory-Condensed.otf') format('opentype');
+    src: url('/fonts/Perandory-Condensed.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Burgues Script';
-    src: url('../fonts/HLT-Burgues-Script.ttf') format('truetype');
+    src: url('/fonts/HLT-Burgues-Script.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -494,13 +494,8 @@ body {
 
 @media (max-width: 768px) {
   .guest-name-large {
-    /* font-size: 3.5rem; */
-    /* font-size: 3rem !important;  */
     font-size: clamp(2.5rem, 8vw, 5rem);
     line-height: 1.1;
-    /* word-break: break-word; 
-    display: block; 
-    padding: 0 10px; */
   }
   .sun-glow {
     width: 100vw;
@@ -522,6 +517,7 @@ body {
   background: var(--cream);
   overflow: hidden;
 }
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -529,19 +525,73 @@ body {
   max-width: 1000px;
   width: 100%;
 }
+
 .memory-card {
-  background: white;
-  padding: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  transform: translateY(100px);
-  opacity: 0;
+  opacity: 1 !important;
+  transform: none !important; 
+  background: transparent;
+  perspective: 1000px; 
 }
+
 .memory-img {
   width: 100%;
   height: 300px;
   object-fit: cover;
-  filter: sepia(20%);
+  display: block;
+  background-color: #f0f0f0;
+  transition: opacity 0.5s ease-in-out;
+  will-change: opacity;
 }
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 400px; 
+  text-align: center;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.flip-card-front {
+  background-color: white;
+  padding: 15px;
+}
+
+.flip-card-back {
+  background-color: var(--deep-green); 
+  color: var(--cream);
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border: 2px solid var(--gold);
+}
+
+.flip-card-back h3 {
+  font-family: var(--font-head);
+  color: var(--gold);
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+
 .memory-caption {
   font-family: var(--font-head);
   margin-top: 10px;

@@ -25,6 +25,10 @@
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>"
     />
 
+    <link rel="preload" as="image" href="./static/freshman.webp" />
+    <link rel="preload" as="image" href="./static/intern.webp" />
+    <link rel="preload" as="image" href="./static/unforgettable.webp" />
+
     <link rel="stylesheet" href="css/style.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -128,17 +132,64 @@
           Long story short, I survived.
         </h2>
         <div class="gallery-grid">
-          <div class="memory-card">
-            <img src="./static/freshman.webp" class="memory-img" />
-            <div class="memory-caption">Freshman year</div>
+          <div class="memory-card flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <img
+                  src="./static/freshman.webp"
+                  class="memory-img"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="memory-caption">2022: The beginning</div>
+              </div>
+              <div class="flip-card-back">
+                <h3>
+                  Khi ta ở, chi là nơi đất ở
+                  <br />Khi ta đi, đất đã hoá tâm hồn!
+                </h3>
+              </div>
+            </div>
           </div>
-          <div class="memory-card" style="margin-top: 40px">
-            <img src="./static/intern.webp" class="memory-img" />
-            <div class="memory-caption">Internship days</div>
+
+          <div class="memory-card flip-card" style="margin-top: 40px">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <img
+                  src="./static/intern.webp"
+                  class="memory-img"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="memory-caption">2024: The grind</div>
+              </div>
+              <div class="flip-card-back">
+                <h3>
+                  Khi ta ở, chi là nơi đất ở
+                  <br />Khi ta đi, đất đã hoá tâm hồn!
+                </h3>
+              </div>
+            </div>
           </div>
-          <div class="memory-card">
-            <img src="./static/unforgettable.webp" class="memory-img" />
-            <div class="memory-caption">Unforgettable</div>
+
+          <div class="memory-card flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <img
+                  src="./static/unforgettable.webp"
+                  class="memory-img"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="memory-caption">2026: The graduate</div>
+              </div>
+              <div class="flip-card-back">
+                <h3>
+                  Khi ta ở, chi là nơi đất ở
+                  <br />Khi ta đi, đất đã hoá tâm hồn!
+                </h3>
+              </div>
+            </div>
           </div>
         </div>
       </section>

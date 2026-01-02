@@ -310,15 +310,6 @@ function initScrollAnimations() {
     ease: "power2.out",
   });
 
-  gsap.utils.toArray(".memory-card").forEach((card) => {
-    gsap.to(card, {
-      y: 0,
-      opacity: 1,
-      duration: 1,
-      scrollTrigger: { trigger: card, start: "top 80%" },
-    });
-  });
-
   gsap.to("#draw-line", {
     height: "100%",
     ease: "none",
