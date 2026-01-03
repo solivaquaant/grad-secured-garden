@@ -98,11 +98,6 @@ function updateEventDetails(config) {
   document.getElementById("dynamic-location").innerText =
     config.locationName + " (" + config.address + ")";
   document.getElementById("map-iframe").src = config.mapUrl;
-  const mapsBtn = document.getElementById("btn-open-maps");
-  if (mapsBtn) {
-    const encodedAddress = encodeURIComponent(config.address);
-    mapsBtn.href = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
-  }
 }
 
 // Handle guest message submission and display confirmation
@@ -130,7 +125,7 @@ async function handleRSVP(e) {
           rsvpContainer.innerHTML = `
         <div style="padding: 40px; font-family: var(--font-head); border: 1px dashed var(--gold);">
           <i class="fas fa-heart" style="color: #ff758f; font-size: 2.5rem; margin-bottom: 15px;"></i>
-          <h3 style="font-size: 2.2rem; margin-bottom: 10px;">Thank you, ${CURRENT_USER}!</h3>
+          <h3 style="font-size: 1.5rem; margin-bottom: 10px;">Thank you, ${CURRENT_USER}!</h3>
           <p style="opacity: 0.8; font-size: 1.1rem; margin-bottom: 20px;">Your wish has been planted in the garden.</p>
           <a href="/guestbook.html" style="
             display: inline-block;
