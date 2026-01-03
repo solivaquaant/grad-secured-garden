@@ -12,7 +12,9 @@ const app = express();
 
 // Middleware configuration
 app.use(cors());
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.static("public"));
 
 // Database connection
@@ -46,10 +48,10 @@ app.post("/api/login", async (req, res) => {
 
 // Save a new message from a guest
 app.post("/api/message", async (req, res) => {
-  const { guestName, content } = req.body;
+  const { guestName, content, bouquetImage } = req.body;
 
   try {
-    const newMessage = new Message({ guestName, content });
+    const newMessage = new Message({ guestName, content, bouquetImage });
     await newMessage.save();
     res.json({ success: true, message: "Message saved" });
   } catch (err) {
@@ -57,10 +59,20 @@ app.post("/api/message", async (req, res) => {
   }
 });
 
-// Retrieve all messages sorted by timestamp
+// Retrieve all messages that have content, sorted by timestamp
 app.get("/api/messages", async (req, res) => {
   try {
-    const messages = await Message.find({}, "content").sort({ timestamp: -1 });
+    const messages = await Message.find(
+      {
+        content: {
+          $exists: true,
+          $ne: null,
+          $not: /^\s*$/,
+        },
+      },
+      "content"
+    ).sort({ timestamp: -1 });
+
     res.json(messages);
   } catch (err) {
     res.status(500).json({ error: err.message });

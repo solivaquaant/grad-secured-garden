@@ -29,14 +29,13 @@
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>"
     />
 
-    <link rel="preload" as="image" href="./static/freshman.webp" />
-    <link rel="preload" as="image" href="./static/intern.webp" />
     <link rel="preload" as="image" href="./static/unforgettable.webp" />
 
     <link rel="stylesheet" href="css/style.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   </head>
 
   <body>
@@ -170,6 +169,128 @@
           <div class="letter-stamp">
             <img src="./static/stamp.png" alt="Stamp" class="stamp-img" />
           </div>
+        </div>
+      </section>
+
+      <!-- Interactive flower arrangement game -->
+      <section id="chapter-flower-arrangement">
+        <h2 class="section-title">Bloom with grace</h2>
+        <p class="section-subtitle">
+          Drag flowers and leaves into the basket to send your love.
+        </p>
+
+        <div class="flower-game-container">
+          <div class="basket-column">
+            <div id="flower-basket" class="drop-zone">
+              <img
+                src="./static/flowers/basket.png"
+                alt="Flower Basket"
+                class="basket-img"
+                draggable="false"
+              />
+              <div id="placed-flowers-container"></div>
+            </div>
+          </div>
+          <div class="elements-column">
+            <div class="flower-palette compact-grid">
+              <!-- Flowers -->
+              <div class="palette-item">
+                <img
+                  src="./static/flowers/flower-1.png"
+                  class="draggable-flower"
+                  draggable="true"
+                />
+              </div>
+              <div class="palette-item">
+                <img
+                  src="./static/flowers/flower-2.png"
+                  class="draggable-flower"
+                  draggable="true"
+                />
+              </div>
+              <div class="palette-item">
+                <img
+                  src="./static/flowers/flower-3.png"
+                  class="draggable-flower"
+                  draggable="true"
+                />
+              </div>
+              <div class="palette-item">
+                <img
+                  src="./static/flowers/flower-4.png"
+                  class="draggable-flower"
+                  draggable="true"
+                />
+              </div>
+              <div class="palette-item">
+                <img
+                  src="./static/flowers/flower-5.png"
+                  class="draggable-flower"
+                  draggable="true"
+                />
+              </div>
+              <div class="palette-item">
+                <img
+                  src="./static/flowers/flower-6.png"
+                  class="draggable-flower"
+                  draggable="true"
+                />
+              </div>
+              <div class="palette-item">
+                <img
+                  src="./static/flowers/flower-7.png"
+                  class="draggable-flower"
+                  draggable="true"
+                />
+              </div>
+              <div class="palette-item">
+                <img
+                  src="./static/flowers/flower-8.png"
+                  class="draggable-flower"
+                  draggable="true"
+                />
+              </div>
+              <div class="palette-item">
+                <img
+                  src="./static/flowers/flower-9.png"
+                  class="draggable-flower"
+                  draggable="true"
+                />
+              </div>
+
+              <!-- Leaves -->
+              <div class="palette-item">
+                <img
+                  src="./static/flowers/leaf-1.png"
+                  class="draggable-flower"
+                  draggable="true"
+                />
+              </div>
+              <div class="palette-item">
+                <img
+                  src="./static/flowers/leaf-2.png"
+                  class="draggable-flower"
+                  draggable="true"
+                />
+              </div>
+              <div class="palette-item">
+                <img
+                  src="./static/flowers/leaf-3.png"
+                  class="draggable-flower"
+                  draggable="true"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-controls">
+          <button id="reset-flowers" class="btn-reset">
+            <i class="fas fa-undo"></i> Start over
+          </button>
+          <button id="save-flowers" class="btn-reset">
+            <i class="fas fa-camera"></i> Share & save
+          </button>
         </div>
       </section>
 

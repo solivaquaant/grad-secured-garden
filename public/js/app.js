@@ -451,3 +451,101 @@ function toggleMusic() {
 
   initButterflies();
 })();
+
+document.addEventListener("DOMContentLoaded", () => {
+  const draggables = document.querySelectorAll(".draggable-flower");
+  const dropZone = document.getElementById("flower-basket");
+  const container = document.getElementById("placed-flowers-container");
+  const resetBtn = document.getElementById("reset-flowers");
+
+  draggables.forEach((flower) => {
+    flower.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("imgSrc", flower.src);
+      e.dataTransfer.setData("type", flower.dataset.type);
+      flower.style.opacity = "0.5";
+    });
+
+    flower.addEventListener("dragend", () => {
+      flower.style.opacity = "1";
+    });
+  });
+
+  dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+  });
+
+  dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+
+    const imgSrc = e.dataTransfer.getData("imgSrc");
+    const rect = dropZone.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const newFlower = document.createElement("img");
+    newFlower.src = imgSrc;
+    newFlower.className = "placed-flower";
+    newFlower.style.left = `${x}px`;
+    newFlower.style.top = `${y}px`;
+    const randomRotation = Math.floor(Math.random() * 40) - 20;
+    newFlower.style.transform = `translate(-50%, -50%) rotate(${randomRotation}deg)`;
+    container.appendChild(newFlower);
+  });
+
+  resetBtn.addEventListener("click", () => {
+    gsap.to(".placed-flower", {
+      opacity: 0,
+      scale: 0.5,
+      duration: 0.3,
+      stagger: 0.05,
+      onComplete: () => {
+        container.innerHTML = "";
+      },
+    });
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const saveBtn = document.getElementById("save-flowers");
+  const dropZone = document.getElementById("flower-basket");
+
+  saveBtn.addEventListener("click", async () => {
+    saveBtn.innerHTML =
+      '<i class="fas fa-spinner fa-spin"></i> Packaging bouquet...';
+    saveBtn.disabled = true;
+
+    try {
+      const canvas = await html2canvas(dropZone, {
+        backgroundColor: getComputedStyle(
+          document.documentElement
+        ).getPropertyValue("--cream"),
+        logging: false,
+        useCORS: true,
+        scale: 2,
+      });
+      const imageData = canvas.toDataURL("image/jpeg", 0.9);
+
+      const link = document.createElement("a");
+      link.download = `bouquet-${Date.now()}.png`;
+      link.href = imageData;
+      link.click();
+
+      const response = await fetch("/api/message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          guestName: CURRENT_USER,
+          bouquetImage: imageData,
+        }),
+      });
+
+      if (response.ok) {
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      showErrorToast("Can't save image. Please try again.");
+    } finally {
+      saveBtn.innerHTML = '<i class="fas fa-camera"></i> Gửi tặng & Tải ảnh';
+      saveBtn.disabled = false;
+    }
+  });
+});
