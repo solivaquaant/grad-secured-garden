@@ -15,6 +15,29 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+
+// Security middleware to prevent direct access to .js and .css files
+app.use((req, res, next) => {
+  const path = req.path;
+
+  // Allow only specific pages to be accessed directly
+  const allowedPages = ["/", "/index.html", "/hunt.html", "/guestbook.html"];
+  if (allowedPages.includes(path)) {
+    return next();
+  }
+
+  // Check Sec-Fetch-Dest header
+  const fetchDest = req.get("Sec-Fetch-Dest");
+  if (
+    (path.endsWith(".js") || path.endsWith(".css")) &&
+    fetchDest === "document"
+  ) {
+    return res.redirect("/");
+  }
+
+  next();
+});
+
 app.use(express.static("public"));
 
 // Database connection
@@ -182,6 +205,21 @@ app.all("/api/hunt/leaderboard", async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
+});
+
+// Catch-all route to redirect unknown paths to home page
+app.get("*path", (req, res) => {
+  const currentPath = req.path;
+  if (req.method === "GET" && !currentPath.startsWith("/api/")) {
+    const rootPages = ["/", "/index.html"];
+    if (rootPages.includes(currentPath)) {
+      return res
+        .status(404)
+        .send("Error: index.html not found in public folder.");
+    }
+    return res.redirect("/");
+  }
+  res.status(404).json({ message: "Not found" });
 });
 
 // Start server
