@@ -21,6 +21,7 @@
   --gold: #d4af37;
   --gold-light: #f4dfb0;
   --error: #ff6b6b;
+  --accent: #d4a373;
 
   --font-head: "Cormorant Garamond", serif;
   --font-body: "Montserrat", sans-serif;
@@ -559,6 +560,7 @@ body {
   width: 100%;
   height: auto;
   display: block;
+  cursor: pointer;
 }
 
 .letter-divider {
@@ -1167,4 +1169,27 @@ body:has(#wish-wall) .back-link {
         width: 300px;
         height: 300px;
     }
+}
+
+/* Easter egg alert */
+.egg-alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border-left: 5px solid var(--accent);
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.5s ease-out;
+  z-index: 1000;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }

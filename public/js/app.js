@@ -1,3 +1,14 @@
+// Prevent debugging and inspect element access
+setInterval(function () {
+  debugger;
+}, 100);
+document.addEventListener("contextmenu", (e) => e.preventDefault());
+document.addEventListener("keydown", (e) => {
+  if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) {
+    e.preventDefault();
+  }
+});
+
 let TARGET_DATE = null;
 let CURRENT_USER = null;
 
@@ -54,6 +65,7 @@ async function validateInput() {
 
     if (data.success) {
       CURRENT_USER = data.guestName;
+      localStorage.setItem("guestName", name);
       document.getElementById("user-display").innerText = CURRENT_USER;
 
       updateEventDetails(data.eventConfig);
@@ -117,6 +129,11 @@ async function handleRSVP(e) {
     });
 
     if (response.ok) {
+      if (content.toLowerCase().includes("love")) {
+        if (typeof HuntGame !== "undefined") {
+          HuntGame.claimSecret(HuntGame.actions.E3);
+        }
+      }
       gsap.to(rsvpContainer, {
         opacity: 0,
         y: -10,
@@ -129,14 +146,14 @@ async function handleRSVP(e) {
           <p style="opacity: 0.8; font-size: 1.1rem; margin-bottom: 20px;">Your wish has been planted in the garden.</p>
           <a href="/guestbook.html" style="
             display: inline-block;
-            color: var(---gold);
+            color: var(--gold);
             font-family: var(--font-tech);
             font-size: 0.8rem;
             text-decoration: none;
             border: 1px solid var(--gold);
             padding: 8px 20px;
             transition: all 0.3s;
-          " onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='transparent'">
+          " onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='transparent'">
             VISIT THE WISH WALL →
           </a>
         </div>
@@ -489,6 +506,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const randomRotation = Math.floor(Math.random() * 40) - 20;
     newFlower.style.transform = `translate(-50%, -50%) rotate(${randomRotation}deg)`;
     container.appendChild(newFlower);
+
+    if (typeof HuntGame !== "undefined") {
+      HuntGame.checkFlowerEgg(imgSrc);
+    }
   });
 
   resetBtn.addEventListener("click", () => {
@@ -544,7 +565,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error:", error);
       showErrorToast("Can't save image. Please try again.");
     } finally {
-      saveBtn.innerHTML = '<i class="fas fa-camera"></i> Gửi tặng & Tải ảnh';
+      saveBtn.innerHTML = '<i class="fas fa-camera"></i> Save & share';
       saveBtn.disabled = false;
     }
   });

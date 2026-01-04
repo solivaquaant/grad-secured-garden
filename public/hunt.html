@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The memory hunt</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&family=Alex+Brush&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+      body {
+        background-color: var(--cream);
+        color: var(--deep-green);
+        font-family: var(--font-body);
+        overflow-x: hidden;
+      }
+
+      .hunt-wrapper {
+        max-width: 900px;
+        margin: 60px auto;
+        padding: 0 20px;
+        text-align: center;
+      }
+
+      .hunt-header h1 {
+        font-family: var(--font-head);
+        font-size: 4rem;
+        margin-bottom: 10px;
+      }
+
+      .hunt-header p {
+        font-family: var(--font-head);
+        font-style: italic;
+        font-size: 1.4rem;
+        opacity: 0.8;
+      }
+
+      .submit-card {
+        background: white;
+        padding: 40px;
+        border-radius: 2px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        margin: 40px 0;
+        position: relative;
+        border: 1px solid rgba(138, 154, 91, 0.2);
+      }
+
+      .user-greeting {
+        font-family: "Alex Brush", cursive;
+        font-size: 2.5rem;
+        color: var(--accent);
+        margin-bottom: 15px;
+      }
+
+      .input-group {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 25px;
+      }
+
+      .hunt-input {
+        border: none;
+        border-bottom: 1px solid var(--sage);
+        padding: 10px;
+        width: 300px;
+        font-family: var(--font-tech);
+        font-size: 0.9rem;
+        outline: none;
+      }
+
+      .btn-submit {
+        background: var(--sage);
+        color: white;
+        border: none;
+        padding: 10px 30px;
+        font-family: var(--font-tech);
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .btn-submit:hover {
+        background: var(--sage-dark);
+      }
+
+      .leaderboard-section {
+        margin-top: 60px;
+      }
+
+      .leaderboard-title {
+        font-family: var(--font-head);
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+      }
+
+      .memory-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: transparent;
+      }
+
+      .memory-table th {
+        font-family: var(--font-tech);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        padding: 15px;
+        border-bottom: 2px solid var(--sage);
+        color: var(--sage-dark);
+      }
+
+      .memory-table td {
+        padding: 20px 15px;
+        border-bottom: 1px solid rgba(138, 154, 91, 0.1);
+        font-size: 0.95rem;
+      }
+
+      .rank-gold {
+        color: #d4af37;
+        font-weight: bold;
+      }
+
+      .back-to-garden {
+        display: inline-block;
+        margin-top: 50px;
+        color: var(--sage-dark);
+        text-decoration: none;
+        font-family: var(--font-tech);
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        border-bottom: 1px solid var(--sage);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="butterfly-container"></div>
+
+    <div class="hunt-wrapper">
+      <header class="hunt-header">
+        <h1>The memory hunt</h1>
+        <p>Uncover the hidden fragments of our shared journey</p>
+      </header>
+
+      <div class="submit-card">
+        <div class="user-greeting">
+          Welcome, <span id="displayNickname">Guest</span>
+        </div>
+        <p style="font-size: 0.9rem; opacity: 0.7">
+          Found a secret code? Enter it below to record your discovery.
+        </p>
+
+        <div class="input-group">
+          <input
+            type="text"
+            id="flagInput"
+            class="hunt-input"
+            placeholder="ENTER SECRET FLAG..."
+          />
+          <button class="btn-submit" onclick="submitFlag()">SUBMIT</button>
+        </div>
+      </div>
+
+      <section class="leaderboard-section">
+        <h2 class="leaderboard-title">Hall of Memories</h2>
+        <table class="memory-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Explorer</th>
+              <th>Flags Found</th>
+              <th>Last Discovery</th>
+            </tr>
+          </thead>
+          <tbody id="lbBody"></tbody>
+        </table>
+      </section>
+
+      <a href="/" class="back-to-garden">RETURN TO GARDEN</a>
+    </div>
+
+    <script src="js/hunt-logic.js"></script>
+    <script>
+      const nickname = localStorage.getItem("guestName") || "Anonymous Guest";
+      document.getElementById("displayNickname").innerText = nickname;
+
+      async function loadLeaderboard() {
+        try {
+          const res = await fetch("/api/hunt/leaderboard");
+          let data = await res.json();
+          const body = document.getElementById("lbBody");
+
+          // SORTING LOGIC:
+          // 1. Found flags descending
+          // 2. Completion time ascending (earlier is better)
+          data.sort((a, b) => {
+            if (b.foundFlags.length !== a.foundFlags.length) {
+              return b.foundFlags.length - a.foundFlags.length;
+            }
+            return new Date(a.completionTime) - new Date(b.completionTime);
+          });
+
+          body.innerHTML = data
+            .map((item, index) => {
+              const date = new Date(item.completionTime).toLocaleTimeString(
+                [],
+                {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }
+              );
+              const isTop = index === 0 ? "rank-gold" : "";
+
+              return `
+                <tr class="${isTop}">
+                    <td>#${index + 1}</td>
+                    <td style="font-weight: 500;">${item.nickname}</td>
+                    <td><i class="fas fa-flag"></i> ${
+                      item.foundFlags.length
+                    } / 8</td>
+                    <td style="opacity: 0.7; font-size: 0.85rem;">${date}</td>
+                </tr>
+              `;
+            })
+            .join("");
+        } catch (err) {
+          console.error("Failed to load leaderboard");
+        }
+      }
+
+      async function submitFlag() {
+        const flagInput = document.getElementById("flagInput");
+        const flag = flagInput.value.trim();
+        if (!flag) return;
+
+        const res = await fetch("/api/hunt/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nickname, flag }),
+        });
+
+        const result = await res.json();
+
+        if (result.isEaster) {
+          HuntGame.notify(
+            result.flag,
+            result.message ||
+              "Oops! That's not correct, but here's a surprise for your effort:"
+          );
+          flagInput.value = "";
+          return;
+        }
+
+        if (res.ok) {
+          flagInput.value = "";
+          loadLeaderboard();
+        } else {
+          alert(result.message);
+        }
+      }
+
+      // Initial load
+      loadLeaderboard();
+
+      // Basic butterfly init (if script is available)
+      if (typeof initButterflies === "function") initButterflies();
+    </script>
+  </body>
+</html>
